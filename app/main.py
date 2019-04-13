@@ -71,9 +71,6 @@ def initialize_coroutines(canvas):
     with open('frames/rocket_frame_2.txt', 'r') as f:
         startship_animation_2 = f.read()
 
-    with open('frames/trash_large.txt') as f:
-        trash_animation = f.read()
-
     starship_initial_row_position = rows_number - (STARSHIP_ANIMATION_ROWS * 2)
     starship_initial_column_position = columns_number // 2
 
