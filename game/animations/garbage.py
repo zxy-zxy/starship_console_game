@@ -8,11 +8,13 @@ from tools import sleep
 from animations.explosion import animate_explosion
 
 from game_scenario import get_garbage_delay_tics
+
 from constants import TRASH_ANIMATION_COLUMNS
 from global_variables import (
+    year,
     coroutines,
     obstacles,
-    obstacles_in_last_collisions, year
+    obstacles_in_last_collisions
 )
 
 
@@ -70,8 +72,12 @@ async def fill_orbit_with_garbage(canvas):
         garbage_animations.append(lamp)
 
     while True:
-        animation_to_appear = random.choice(garbage_animations)
-        column_at_appear = random.randint(1, columns_number - TRASH_ANIMATION_COLUMNS)
-        coroutines.append(fly_garbage(canvas, column_at_appear, animation_to_appear))
-        # delay_tics = get_garbage_delay_tics(year)
-        await sleep(20)
+        global year
+        delay_tics = get_garbage_delay_tics(year[0])
+        if delay_tics is not None:
+            animation_to_appear = random.choice(garbage_animations)
+            column_at_appear = random.randint(1, columns_number - TRASH_ANIMATION_COLUMNS)
+            coroutines.append(fly_garbage(canvas, column_at_appear, animation_to_appear))
+            await sleep(delay_tics)
+        else:
+            await sleep(30)

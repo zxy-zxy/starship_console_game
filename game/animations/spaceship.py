@@ -14,7 +14,8 @@ from constants import (
     RIGHT_KEY_CODE,
     UP_KEY_CODE,
     DOWN_KEY_CODE,
-    STARSHIP_ANIMATION_ROWS,
+    SPACESHIP_ANIMATIONS_ROWS,
+    SPACESHIP_ANIMATIONS_COLUMNS,
 )
 
 starship_frame = ''
@@ -43,7 +44,7 @@ async def run_spaceship(canvas):
     rows_number, columns_number = canvas.getmaxyx()
     row_speed = column_speed = 0
 
-    row = rows_number - (STARSHIP_ANIMATION_ROWS * 2)
+    row = rows_number - (SPACESHIP_ANIMATIONS_ROWS * 2)
     column = columns_number // 2
 
     while True:
@@ -52,29 +53,23 @@ async def run_spaceship(canvas):
         if spase_pressed:
             coroutines.append(animate_yamato_cannon(canvas, row, column))
 
-        if (
-            0 < row + rows_direction < rows_number - STARSHIP_ANIMATION_ROWS
-            and 0 < column + columns_direction < columns_number
-        ):
+        row_speed, column_speed = update_speed(
+            row_speed, column_speed, rows_direction, columns_direction
+        )
 
-            row_speed, column_speed = update_speed(
-                row_speed, column_speed, rows_direction, columns_direction
-            )
-
+        if (1 < row + row_speed < rows_number - SPACESHIP_ANIMATIONS_ROWS
+                and 1 < column + column_speed < columns_number - SPACESHIP_ANIMATIONS_COLUMNS):
             row += row_speed
             column += column_speed
 
-            draw_frame(canvas, row, column, starship_frame)
-            await asyncio.sleep(0)
-            draw_frame(canvas, row, column, previous_starship_frame, True)
+        draw_frame(canvas, row, column, starship_frame)
+        await asyncio.sleep(0)
+        draw_frame(canvas, row, column, previous_starship_frame, True)
 
-            for obstacle in obstacles:
-                if obstacle.has_collision(row, column):
-                    coroutines.append(animate_game_over(canvas))
-                    return
-
-        else:
-            await asyncio.sleep(0)
+        for obstacle in obstacles:
+            if obstacle.has_collision(row, column):
+                coroutines.append(animate_game_over(canvas))
+                return
 
 
 def read_controls(canvas):

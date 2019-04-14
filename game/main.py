@@ -7,6 +7,7 @@ from animations.blink import animate_blink
 from animations.spaceship import animate_spaceship, run_spaceship
 
 from obstacles import show_obstacles
+from timeline import increment_year
 
 from constants import TIC_TIMEOUT, STARS_QUANTITY
 
@@ -29,6 +30,8 @@ def initialize_coroutines(canvas):
 
     for star in stars_to_canvas:
         coroutines.append(animate_blink(canvas, *star))
+
+    coroutines.append(increment_year(canvas))
 
     coroutines.append(run_spaceship(canvas))
     coroutines.append(animate_spaceship())
