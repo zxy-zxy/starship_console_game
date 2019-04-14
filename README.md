@@ -9,4 +9,4 @@ python main.py
 ```
 
 Use arrow keys to maneuver your spaceship between fragments of asteroids 
-and space to bring the power of the yamato cannon.
+and push space to bring the power of the yamato cannon.
