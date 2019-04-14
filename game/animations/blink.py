@@ -1,9 +1,9 @@
 import curses
 
-from asyncio_tools import sleep
+from tools import sleep
 
 
-async def blink(canvas, row, column, symbol='*'):
+async def animate_blink(canvas, row, column, symbol='*'):
     while True:
         canvas.addstr(row, column, symbol, curses.A_DIM)
         await sleep(20)
