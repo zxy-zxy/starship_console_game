@@ -1,5 +1,28 @@
+STARS_QUANTITY = 50
+
+SPACESHIP_ANIMATIONS_ROWS = 10
+SPACESHIP_ANIMATIONS_COLUMNS = 5
+TRASH_ANIMATION_COLUMNS = 13
+
+TIC_TIMEOUT = 0.1
+TICS_PER_YEAR = 5
+GAME_YEAR_BEGINNING = 1957
+YAMATO_GUN_AVAILABLE_SINCE_YEAR = 2020
+
+GARBAGE_ANIMATIONS_FILE_PATHS = [
+    'frames/trash_large.txt',
+    'frames/trash_small.txt',
+    'frames/hubble.txt',
+    'frames/duck.txt',
+    'frames/lamp.txt',
+]
+
+SPACESHIP_ANIMATIONS_FILEPATHS = [
+    'frames/rocket_frame_1.txt',
+    'frames/rocket_frame_2.txt',
+]
+
 PHRASES = {
-    # Только на английском, Repl.it ломается на кириллице
     1957: "First Sputnik",
     1961: "Gagarin flew!",
     1969: "Armstrong got on the moon!",
@@ -13,7 +36,7 @@ PHRASES = {
 
 def get_garbage_delay_tics(year):
     if year < 1961:
-        return None
+        return 25
     elif year < 1969:
         return 20
     elif year < 1981:
@@ -26,3 +49,6 @@ def get_garbage_delay_tics(year):
         return 6
     else:
         return 2
+
+
+DEBUG = False

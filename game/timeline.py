@@ -1,19 +1,17 @@
-import asyncio
+from tools import sleep, Singleton
 
-from global_variables import year
-from game_scenario import PHRASES
-from tools import sleep
+from config import GAME_YEAR_BEGINNING, TICS_PER_YEAR
 
 
-async def increment_year(canvas):
-    global year
-    while True:
-        new_phrase = PHRASES.get(year[0])
-        if new_phrase:
-            phrase = new_phrase
-            message = str(year[0]) + ' ' + phrase
-        else:
-            message = str(year[0]) + ' ' + phrase
-        canvas.addstr(2, 10, message)
-        await sleep(10)
-        year[0] += 1
+class Timeline(metaclass=Singleton):
+    def __init__(self, year, tics_per_year):
+        self.tics_per_year = tics_per_year
+        self.year = year
+
+    async def increment_year(self):
+        while True:
+            await sleep(self.tics_per_year)
+            self.year += 1
+
+
+game_time_line = Timeline(GAME_YEAR_BEGINNING, TICS_PER_YEAR)

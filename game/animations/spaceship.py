@@ -1,43 +1,43 @@
 import asyncio
 import itertools
 
-from curses_tools import draw_frame
-from physics import update_speed
-
 from animations.yamato_cannon import animate_yamato_cannon
 from animations.game_over import animate_game_over
-
+from curses_tools import draw_frame
+from physics import update_speed
+from tools import read_animation_from_file
+from timeline import game_time_line
 from global_variables import coroutines, obstacles
-from constants import (
-    SPACE_KEY_CODE,
-    LEFT_KEY_CODE,
-    RIGHT_KEY_CODE,
-    UP_KEY_CODE,
-    DOWN_KEY_CODE,
+from config import (
     SPACESHIP_ANIMATIONS_ROWS,
     SPACESHIP_ANIMATIONS_COLUMNS,
+    SPACESHIP_ANIMATIONS_FILEPATHS,
+    YAMATO_GUN_AVAILABLE_SINCE_YEAR
 )
 
-starship_frame = ''
-previous_starship_frame = ''
+SPACE_KEY_CODE = 32
+LEFT_KEY_CODE = 260
+RIGHT_KEY_CODE = 261
+UP_KEY_CODE = 259
+DOWN_KEY_CODE = 258
+
+spaceship_frame = ''
+previous_spaceship_frame = ''
 
 
 async def animate_spaceship():
-    global starship_frame
-    global previous_starship_frame
+    global spaceship_frame
+    global previous_spaceship_frame
 
-    with open('frames/rocket_frame_1.txt', 'r') as f:
-        starship_animation_frame_1 = f.read()
+    spaceship_frame_animations = [
+        read_animation_from_file(spaceship_animation_file_path)
+        for spaceship_animation_file_path in SPACESHIP_ANIMATIONS_FILEPATHS
+    ]
 
-    with open('frames/rocket_frame_2.txt', 'r') as f:
-        starship_animation_frame_2 = f.read()
-
-    starship_frame_animations = [starship_animation_frame_1, starship_animation_frame_2]
-
-    for current_starship_frame in itertools.cycle(starship_frame_animations):
-        starship_frame = current_starship_frame
+    for current_spaceship_frame in itertools.cycle(spaceship_frame_animations):
+        spaceship_frame = current_spaceship_frame
         await asyncio.sleep(0)
-        previous_starship_frame = current_starship_frame
+        previous_spaceship_frame = current_spaceship_frame
 
 
 async def run_spaceship(canvas):
@@ -50,7 +50,7 @@ async def run_spaceship(canvas):
     while True:
         rows_direction, columns_direction, spase_pressed = read_controls(canvas)
 
-        if spase_pressed:
+        if spase_pressed and game_time_line.year >= YAMATO_GUN_AVAILABLE_SINCE_YEAR:
             coroutines.append(animate_yamato_cannon(canvas, row, column))
 
         row_speed, column_speed = update_speed(
@@ -62,9 +62,9 @@ async def run_spaceship(canvas):
             row += row_speed
             column += column_speed
 
-        draw_frame(canvas, row, column, starship_frame)
+        draw_frame(canvas, row, column, spaceship_frame)
         await asyncio.sleep(0)
-        draw_frame(canvas, row, column, previous_starship_frame, True)
+        draw_frame(canvas, row, column, previous_spaceship_frame, True)
 
         for obstacle in obstacles:
             if obstacle.has_collision(row, column):

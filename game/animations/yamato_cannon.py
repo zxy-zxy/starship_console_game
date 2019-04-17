@@ -32,9 +32,9 @@ async def animate_yamato_cannon(
         canvas.addstr(round(row), round(column), symbol)
         await asyncio.sleep(0)
         canvas.addstr(round(row), round(column), ' ')
-        row += rows_speed
-        column += columns_speed
         for obstacle in obstacles:
             if obstacle.has_collision(row, column):
                 obstacles_in_last_collisions.append(obstacle)
                 return
+        row += rows_speed
+        column += columns_speed
