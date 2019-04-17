@@ -12,10 +12,10 @@ from config import TIC_TIMEOUT, STARS_QUANTITY, DEBUG
 from global_variables import coroutines, obstacles
 
 
-def initialize_coroutines(canvas):
+def initialize_coroutines(game_canvas, info_canvas):
     star_symbols = ['+', '*', '.', ':']
 
-    rows_number, columns_number = canvas.getmaxyx()
+    rows_number, columns_number = game_canvas.getmaxyx()
 
     stars_to_canvas = [
         (
@@ -27,23 +27,33 @@ def initialize_coroutines(canvas):
     ]
 
     for star in stars_to_canvas:
-        coroutines.append(animate_blink(canvas, *star))
+        coroutines.append(animate_blink(game_canvas, *star))
 
     coroutines.append(game_time_line.increment_year())
-    coroutines.append(run_spaceship(canvas))
+    coroutines.append(game_time_line.show_year(info_canvas))
+    coroutines.append(run_spaceship(game_canvas))
     coroutines.append(animate_spaceship())
-    coroutines.append(fill_orbit_with_garbage(canvas))
+    coroutines.append(fill_orbit_with_garbage(game_canvas))
+
     if DEBUG:
-        coroutines.append(show_obstacles(canvas, obstacles))
+        coroutines.append(show_obstacles(game_canvas, obstacles))
 
     return coroutines
 
 
 def main(canvas):
-    canvas.nodelay(True)
+    rows_number, columns_number = canvas.getmaxyx()
+
+    info_canvas = canvas.derwin(3, columns_number, 0, 0)
+    info_canvas.border()
+
+    game_canvas = canvas.derwin(rows_number - 3, columns_number, 3, 0)
+    game_canvas.keypad(True)
+    game_canvas.nodelay(True)
+
     curses.curs_set(False)
 
-    coroutines = initialize_coroutines(canvas)
+    coroutines = initialize_coroutines(game_canvas, info_canvas)
 
     while coroutines:
         for coroutine in coroutines:
@@ -52,7 +62,8 @@ def main(canvas):
             except StopIteration:
                 coroutines.remove(coroutine)
 
-        canvas.refresh()
+        game_canvas.refresh()
+        info_canvas.refresh()
 
         time.sleep(TIC_TIMEOUT)
 

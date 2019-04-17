@@ -9,7 +9,6 @@ from timeline import game_time_line
 from config import (
     TRASH_ANIMATION_COLUMNS,
     GARBAGE_ANIMATIONS_FILE_PATHS,
-    TICS_PER_YEAR,
     get_garbage_delay_tics
 )
 from global_variables import coroutines, obstacles, obstacles_in_last_collisions
@@ -22,7 +21,7 @@ async def fly_garbage(canvas, column, garbage_frame, speed=0.5):
     column = max(column, 0)
     column = min(column, columns_number - 1)
 
-    row = 0
+    row = 1
     garbage_row_size, garbage_column_size = get_frame_size(garbage_frame)
     obstacle = Obstacle(row, column, garbage_row_size, garbage_column_size)
     obstacles.append(obstacle)

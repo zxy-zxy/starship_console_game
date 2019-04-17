@@ -30,7 +30,7 @@ PHRASES = {
     1981: "Flight of the Shuttle Columbia",
     1998: 'ISS start building',
     2011: 'Messenger launch to Mercury',
-    2020: "Take the plasma gun! Shoot the garbage!",
+    2020: "Yamato cannon is charged! Shoot the garbage!",
 }
 
 
