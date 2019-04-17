@@ -1,3 +1,5 @@
+DEBUG = False
+
 STARS_QUANTITY = 50
 
 SPACESHIP_ANIMATIONS_ROWS = 10
@@ -8,6 +10,8 @@ TIC_TIMEOUT = 0.1
 TICS_PER_YEAR = 5
 GAME_YEAR_BEGINNING = 1957
 YAMATO_GUN_AVAILABLE_SINCE_YEAR = 2020
+
+INFO_CANVAS_ROW_HEIGHT = 3
 
 GARBAGE_ANIMATIONS_FILE_PATHS = [
     'frames/trash_large.txt',
@@ -49,6 +53,3 @@ def get_garbage_delay_tics(year):
         return 6
     else:
         return 2
-
-
-DEBUG = False

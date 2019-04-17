@@ -8,7 +8,12 @@ from animations.spaceship import animate_spaceship, run_spaceship
 
 from obstacles import show_obstacles
 from timeline import game_time_line
-from config import TIC_TIMEOUT, STARS_QUANTITY, DEBUG
+from config import (
+    TIC_TIMEOUT,
+    STARS_QUANTITY,
+    DEBUG,
+    INFO_CANVAS_ROW_HEIGHT
+)
 from global_variables import coroutines, obstacles
 
 
@@ -44,10 +49,15 @@ def initialize_coroutines(game_canvas, info_canvas):
 def main(canvas):
     rows_number, columns_number = canvas.getmaxyx()
 
-    info_canvas = canvas.derwin(3, columns_number, 0, 0)
+    info_canvas = canvas.derwin(INFO_CANVAS_ROW_HEIGHT, columns_number, 0, 0)
     info_canvas.border()
 
-    game_canvas = canvas.derwin(rows_number - 3, columns_number, 3, 0)
+    game_canvas = canvas.derwin(
+        rows_number - INFO_CANVAS_ROW_HEIGHT,
+        columns_number,
+        INFO_CANVAS_ROW_HEIGHT,
+        0
+    )
     game_canvas.keypad(True)
     game_canvas.nodelay(True)
 
