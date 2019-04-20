@@ -6,8 +6,7 @@ from animations.game_over import animate_game_over
 from curses_tools import draw_frame
 from physics import update_speed
 from tools import read_animation_from_file
-from timeline import game_time_line
-from global_variables import coroutines, obstacles
+from global_variables import coroutines, obstacles, game_time_line
 from config import (
     SPACESHIP_ANIMATIONS_ROWS,
     SPACESHIP_ANIMATIONS_COLUMNS,

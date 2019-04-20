@@ -5,13 +5,12 @@ from animations.explosion import animate_explosion
 from obstacles import Obstacle
 from curses_tools import draw_frame, get_frame_size
 from tools import sleep, read_animation_from_file
-from timeline import game_time_line
 from config import (
     TRASH_ANIMATION_COLUMNS,
     GARBAGE_ANIMATIONS_FILE_PATHS,
     get_garbage_delay_tics
 )
-from global_variables import coroutines, obstacles, obstacles_in_last_collisions
+from global_variables import coroutines, obstacles, obstacles_in_last_collisions, game_time_line
 
 
 async def fly_garbage(canvas, column, garbage_frame, speed=0.5):

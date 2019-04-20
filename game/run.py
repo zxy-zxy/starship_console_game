@@ -7,14 +7,13 @@ from animations.blink import animate_blink
 from animations.spaceship import animate_spaceship, run_spaceship
 
 from obstacles import show_obstacles
-from timeline import game_time_line
 from config import (
     TIC_TIMEOUT,
     STARS_QUANTITY,
-    DEBUG,
+    SHOW_OBSTACLES_BORDERS,
     INFO_CANVAS_ROW_HEIGHT
 )
-from global_variables import coroutines, obstacles
+from global_variables import coroutines, obstacles, game_time_line
 
 
 def initialize_coroutines(game_canvas, info_canvas):
@@ -40,7 +39,7 @@ def initialize_coroutines(game_canvas, info_canvas):
     coroutines.append(animate_spaceship())
     coroutines.append(fill_orbit_with_garbage(game_canvas))
 
-    if DEBUG:
+    if SHOW_OBSTACLES_BORDERS:
         coroutines.append(show_obstacles(game_canvas, obstacles))
 
     return coroutines

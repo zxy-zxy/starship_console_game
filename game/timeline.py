@@ -1,7 +1,7 @@
 from tools import sleep, Singleton
 from curses_tools import draw_frame
 
-from config import GAME_YEAR_BEGINNING, TICS_PER_YEAR, PHRASES
+from config import PHRASES
 
 
 class Timeline(metaclass=Singleton):
@@ -25,6 +25,3 @@ class Timeline(metaclass=Singleton):
             draw_frame(canvas, 1, 2, text)
             await sleep(1)
             draw_frame(canvas, 1, 2, text, negative=True)
-
-
-game_time_line = Timeline(GAME_YEAR_BEGINNING, TICS_PER_YEAR)
